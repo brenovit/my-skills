@@ -1,25 +1,14 @@
 <template>
-  <div class="hello">
+  <div>
     <div class="holder">
       <ul>
         <li v-for="(data, index) in skills" :key="index">
-          {{index}}.{{data.skill}}
+          {{data.skill}}
         </li>
       </ul>
     </div>
 
-    <div v-bind:class="{ warning: showAlert, 'box-border': showBorder }"></div>
-    <div v-bind:class="alertObject"></div>
-    <div v-bind:style="{ 
-      backgroundColor: bgColor, 
-      width: bgWidth, 
-      height: bgHeight }"
-      class="box-border"></div>
-
-    <p v-if="skills.length > 1">You have more than 1 skill</p>
-    <p v-else-if="skills.length == 1">You get the first skill</p>
-    <p v-else>You don't have skills</p>
-    
+    <p>These are the skills that you possess.</p>
   </div>
 </template>
 
@@ -32,15 +21,6 @@ export default {
         { "skill" : "VueJs" },
         { "skill" : "Java" }
       ],
-      showAlert: true,
-      showBorder: true,
-      alertObject: {
-        error: true,
-        "box-border": true
-      },
-      bgColor: "blue",
-      bgWidth: "100%",
-      bgHeight: "30px"
     }
   },
   props: {
@@ -55,18 +35,34 @@ export default {
 </script>
 
 <style scoped>
-  .warning{
-    background-color: yellow;
-    width: 100%;
-    height: 30px;
+
+  .holder {
+    background: #fff;
   }
-  .error{
-    background-color: red;
-    width: 100%;
-    height: 30px;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
   }
-  .box-border {
-    border: 5px solid black;
+  
+  ul li {
+    padding: 20px;
+    font-size: 1.3em;
+    background-color: #E0EDF4;
+    border-left: 5px solid #3EB3F6;
+    margin-bottom: 2px;
+    color: #3E5252;
+  }
+
+  p {
+    text-align:center;
+    padding: 30px 0;
+    color: gray;
+  }
+
+  .container {
+    box-shadow: 0px 0px 40px lightgray;
   }
 
 </style>
