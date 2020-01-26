@@ -5,16 +5,33 @@
         <form @submit.prevent="handleSubmit(addSkill)">
           <ValidationProvider name="skill" rules="min:5|max:10" v-slot="{ errors }">
             <input type="text" v-model="skill" placeholder="Enter a skill you have" />
-            <p class="alert" v-if="errors[0]">{{errors[0]}}</p>
+            <transition
+              name="alert-in"
+              enter-active-class="animated flipInX"
+              leave-active-class="animated flipOutX"
+            >
+              <p class="alert" v-if="errors[0]">{{errors[0]}}</p>
+            </transition>
           </ValidationProvider>
         </form>
       </ValidationObserver>
       <ul>
-        <li v-for="(data, index) in skills" :key="index">{{data.skill}}</li>
+        <transition-group
+          name="list"
+          enter-active-class="animated bounceInUp"
+          leave-active-class="animated bounceOutDown"
+        >
+          <li v-for="(data, index) in skills" :key="index">
+            {{data.skill}}
+            <font-awesome-icon icon="minus-circle" pull="right" v-on:click="remove(index)" />
+          </li>
+        </transition-group>
       </ul>
     </div>
 
-    <p>These are the skills that you possess.</p>
+    <p v-if="skills.length > 1">These are the skills that you possess.</p>
+    <p v-else-if="skills.length == 1">You get your first skill.</p>
+    <p v-else>You don't have any skill. :(</p>
   </div>
 </template>
 
@@ -40,12 +57,18 @@ export default {
     addSkill() {
       this.skills.push({ skill: this.skill });
       this.skill = "";
+    },
+    remove(index) {
+      this.skills.splice(index, 1);
     }
   }
 };
 </script>
 
 <style scoped>
+@import "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css";
+@import "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+
 .holder {
   background: #fff;
 }
@@ -90,5 +113,25 @@ input {
   display: inline-block;
   padding: 5px;
   margin-top: -20px;
+}
+
+.alert-in-enter-active {
+  animation: bounce-in 0.5s;
+}
+
+.alert-in-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>
